@@ -1,7 +1,7 @@
 
 async function listVacine(params) {
   try {
-    let response = await fetch('http://localhost:3001/api/help', {
+    let response = await fetch('http://localhost:5000/api/help', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -18,7 +18,7 @@ async function listVacine(params) {
 
 async function getRateVaccine(value) {
   try {
-    let response = await fetch('http://localhost:3001/api');
+    let response = await fetch('http://localhost:5000/api');
     let responseJson = await response.json();
     return responseJson;
   } catch (error) {
@@ -28,7 +28,7 @@ async function getRateVaccine(value) {
 
 async function getRiskClassification(value) {
   try {
-    let response = await fetch('http://localhost:3001/api/risk-classification');
+    let response = await fetch('http://localhost:5000/api/risk-classification');
     let responseJson = await response.json();
     return responseJson;
   } catch (error) {
@@ -38,7 +38,7 @@ async function getRiskClassification(value) {
 
 async function listAddRiskClassification(params) {
   try {
-    let response = await fetch('http://localhost:3001/api/risk-classification', {
+    let response = await fetch('http://localhost:5000/api/risk-classification', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
