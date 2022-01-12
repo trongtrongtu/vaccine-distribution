@@ -45,10 +45,10 @@ class SearchCar extends Component {
       dataRiskClassification: [],
       dataRiskResponse: null,
       level: [
-        { name: 'Xanh', value: 1, color: 'green' },
-        { name: 'Vàng', value: 2, color: 'yellow' },
-        { name: 'Cam', value: 3, color: 'orange' },
-        { name: 'Đỏ', value: 4, color: 'red' },
+        { name: 'Thấp', value: 1, color: 'green' },
+        { name: 'Trung bình', value: 2, color: 'yellow' },
+        { name: 'Cao', value: 3, color: 'orange' },
+        { name: 'Rất cao', value: 4, color: 'red' },
       ]
     };
   }
