@@ -1,4 +1,4 @@
-import { Col, Pagination, Row, Slider, Form, Input, Button, Tabs, Radio } from "antd";
+import { Col, Pagination, Row, Slider, Form, Input, Button, Tabs, Radio, message } from "antd";
 import $ from "jquery";
 import { Component, default as React } from "react";
 import { Link } from "react-router-dom";
@@ -72,29 +72,33 @@ class SearchCar extends Component {
 
   onFinish = (values) => {
     const { dataProvinces, dataVaccines } = this.state
-    console.log('values:', values);
+    console.log('values:', (Number(values.vaccine1) + Number(values.vaccine2) + Number(values.vaccine3) + Number(values.vaccine4)));
     let data = {
       vaccineCount: Number(values.vaccineCount)
     }
-    if (Number(values.vaccine1) > 0 && Number(values.vaccine2) > 0 && Number(values.vaccine3) > 0 && Number(values.vaccine4) > 0 && Number(values.vaccine5) > 0) {
-      data.weight = [Number(values.vaccine1), Number(values.vaccine2), Number(values.vaccine3), Number(values.vaccine4), Number(values.vaccine5)]
-    }
-    listVacine(data).then(res => {
-      const data = res?.result?.provinces?.map((item, index) => ({
-        name: item,
-        y: res?.result?.vaccines?.[index]
-      }))
+    if ((Number(values.vaccine1) + Number(values.vaccine2) + Number(values.vaccine3) + Number(values.vaccine4)) !== 1) {
+      message.error('Xui lòng nhập đúng tổng trọng số bằng 1');
+    } else {
+      if (Number(values.vaccine1) > 0 && Number(values.vaccine2) > 0 && Number(values.vaccine3) > 0 && Number(values.vaccine4) > 0) {
+        data.weight = [Number(values.vaccine1), Number(values.vaccine2), Number(values.vaccine3), Number(values.vaccine4)]
+      }
+      listVacine(data).then(res => {
+        const data = res?.result?.provinces?.map((item, index) => ({
+          name: item,
+          y: res?.result?.vaccines?.[index]
+        }))
 
-      let data1 = data ? [...data] : []
-      data1.sort(function (a, b) { return b.y - a.y })
-      this.setState({
-        dataProvinces: res?.result?.provinces ?? [],
-        dataVaccines: res?.result?.vaccines ?? [],
-        dataVaccinesProvinces: data,
-        dataVaccinesProvincesSort: data1
+        let data1 = data ? [...data] : []
+        data1.sort(function (a, b) { return b.y - a.y })
+        this.setState({
+          dataProvinces: res?.result?.provinces ?? [],
+          dataVaccines: res?.result?.vaccines ?? [],
+          dataVaccinesProvinces: data,
+          dataVaccinesProvincesSort: data1
+        })
       })
-    })
-    console.log('data:', data);
+      console.log('data:', data);
+    }
   };
 
   onFinishFailed = (errorInfo) => {
@@ -238,7 +242,12 @@ class SearchCar extends Component {
                       layout="vertical"
                       labelCol={{ span: 8 }}
                       wrapperCol={{ span: 16 }}
-                      initialValues={{ remember: true }}
+                      initialValues={{
+                        vaccine1: 0.5,
+                        vaccine2: 0.25,
+                        vaccine3: 0.15,
+                        vaccine4: 0.1
+                      }}
                       onFinish={this.onFinish}
                       onFinishFailed={this.onFinishFailed}
                       autoComplete="off"
@@ -289,14 +298,14 @@ class SearchCar extends Component {
                                 <Input type="number" />
                               </Form.Item>
                             </Col>
-                            <Col span={12}>
+                            {/* <Col span={12}>
                               <Form.Item
                                 label="Tỷ lệ dự kiến phân bổ"
                                 name="vaccine5"
                               >
                                 <Input type="number" />
                               </Form.Item>
-                            </Col>
+                            </Col> */}
                             {/* <Col span={12}>
                           <Form.Item
                             label="Cấp độ dịch"
